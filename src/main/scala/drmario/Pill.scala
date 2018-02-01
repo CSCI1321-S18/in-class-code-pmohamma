@@ -1,24 +1,36 @@
 package drmario
 
-class Pill extends Entity {
+class Pill(grid: Grid) extends Entity {
   private var x = 3
   private var y = 0
   val interval = 1.0
   private var delaySum = 0.0
   
-  def colors: List[Block.Colors.Value] = List(Block.Colors.Yellow, 
-      Block.Colors.Blue)
+  val _colors = List(Block.Colors(util.Random.nextInt(3)), Block.Colors(util.Random.nextInt(3)))
+  
+  def colors: List[Block.Colors.Value] = _colors
   
   def locations: List[(Int, Int)] = List((x, y), (x+1, y))
   
-  def move(dx: Int): Unit = {
-    x += dx
+  def selfSupporting:Boolean = false
+  
+  def move(dx: Int, dy: Int): Unit = {
+    val oldx = x
+    x+=dx
+    if (!locations.forall(p => p._1 >= 0 && p._1 <8) || !grid.isClear(locations)){
+      x = oldx
+    }
+    y += dy
+    val oldy = y
+    if (dy > 0 && y >= 16 || !grid.isClear(locations)) {
+      y = oldy //fix this. This one isn't working
+    }
   }
   
   def update(delay: Double): Unit = {
     delaySum += delay
     if(delaySum >= interval) {
-      y += 1
+      move(0, 1)
       delaySum = 0.0
     }
   }

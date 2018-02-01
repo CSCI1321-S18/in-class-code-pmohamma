@@ -9,7 +9,7 @@ object Renderer {
   def render(gc: GraphicsContext, grid: Grid): Unit = {
     gc.fill = Color.Black
     gc.fillRect(0, 0, 1000, 1000)
-    for (entity <- grid.entities) {
+    for (entity <- grid.currentPill :: grid.entities) {
       for ((colorEnum, loc) <- entity.colors.zip(entity.locations)) {
         val color = colorEnum match {
           case Block.Colors.Red => Color.Red
