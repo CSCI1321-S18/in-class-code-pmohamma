@@ -1,5 +1,5 @@
 package drmario
 
-class pillPiece {
+class PillPiece {
   
 }

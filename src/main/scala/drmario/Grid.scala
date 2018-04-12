@@ -1,6 +1,8 @@
 package drmario
 
-class Grid {
+import java.rmi.server.UnicastRemoteObject
+
+class Grid extends UnicastRemoteObject with RemoteGrid{
   // 8 by 16
   private var _currentPill = new Pill(this)
   private var _entities = List.fill(10)(new Virus(util.Random.nextInt(8),
@@ -18,6 +20,9 @@ class Grid {
   def entities = _entities 
   
   def currentPill = _currentPill
+  private var _nextPill = new Pill(this)
+  def nextPill = _nextPill
+
   
   def update(delay: Double): Unit = {
     moveDelay += delay
